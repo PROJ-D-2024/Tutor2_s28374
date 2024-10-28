@@ -1,7 +1,7 @@
 {
   "host": "localhost",
-  "port": 5432,
+  "port": 7777,
   "dbname": "tutor2_db",
   "user": "tutor_user",
-  "password": "password"
+  "password": "your_password"
 }
