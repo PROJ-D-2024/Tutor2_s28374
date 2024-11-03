@@ -8,20 +8,23 @@ with open("config.json") as config_file:
 conn = psycopg2.connect(**config)
 cursor = conn.cursor()
 
-data = {
-    "name": ["Alice", "Bob", "Charlie"],
-    "age": [24, 27, 22],
-    "score": [88.5, 92.3, 79.9]
-}
-df = pd.DataFrame(data)
+df = pd.read_csv("real_data.csv")
 
-for _, row in df.iterrows():
-    cursor.execute(
-        "INSERT INTO test_data (name, age, score) VALUES (%s, %s, %s)",
-        (row["name"], row["age"], row["score"])
-    )
+print(df.head())
+
+df.dropna(subset=['value'], inplace=True)
+
+df['value'] = pd.to_numeric(df['value'], errors='coerce')
+
+cursor.executemany(
+    """
+    INSERT INTO test_data (year, industry_code_ANZSIC, industry_name_ANZSIC, rme_size_grp, variable, value, unit)
+    VALUES (%s, %s, %s, %s, %s, %s, %s)
+    """,
+    df[['year', 'industry_code_ANZSIC', 'industry_name_ANZSIC', 'rme_size_grp', 'variable', 'value', 'unit']].values.tolist()
+)
 
 conn.commit()
 cursor.close()
 conn.close()
-print("all done")
+print("All done, records inserted.")
