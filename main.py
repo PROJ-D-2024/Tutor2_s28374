@@ -10,3 +10,4 @@ print("Data standardized.")
 
 update_database(df)
 print("Data updated in the database.")
+
