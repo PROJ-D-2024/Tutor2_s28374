@@ -3,10 +3,10 @@ from scripts.data_standardization import standardize_data
 from scripts.database_update import update_database
 
 df = load_and_clean_data("real_data.csv")
-print("Данные загружены и очищены.")
+print("Data loaded and cleaned.")
 
 df = standardize_data(df)
-print("Данные стандартизированы.")
+print("Data standardized.")
 
 update_database(df)
-print("Данные обновлены в базе данных.")
+print("Data updated in the database.")
